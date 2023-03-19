@@ -26,9 +26,8 @@ namespace leminhsang_2011143452.Models
         public DateTime DateTime { get; set; }
         public Category Category { get; set; }
         [Required]
-        
-        public Category Categories { get; set; }
         public byte CategoryId { get; set; }
+        public int DataTime { get; internal set; }
     }
     
 }

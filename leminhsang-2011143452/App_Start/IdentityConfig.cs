@@ -105,5 +105,10 @@ namespace leminhsang_2011143452
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
+
+        internal Task TwoFactorSignInAsync(object provider, object code, object isPersistent, object rememberBrowser)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

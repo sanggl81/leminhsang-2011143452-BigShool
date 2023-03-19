@@ -1,4 +1,6 @@
 ﻿using leminhsang_2011143452.Models;
+using leminhsang_2011143452.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,33 @@ namespace leminhsang_2011143452.Controllers
         // GET: Courses
         public ActionResult Create()
         {
-            return View();
+            var viewModel = new CourseViewModelcs
+            {
+                Categories = _dbcontext.Categories.ToList()
+            };
+            return View(viewModel);
         }
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CourseViewModelcs viewModelcs)
+        {
+            if (!ModelState.IsValid)
+            {
+                viewModelcs.Categories = _dbcontext.Categories.ToList();
+                return View(viewModelcs);
+            }
+            var course = new Course
+            {
+                LecturerId = User.Identity.GetUserId(),
+                DateTime = viewModelcs.GetDateTime(),
+                CategoryId = viewModelcs.Category,
+                Place = viewModelcs.Place,
+            };
+            _dbcontext.Courses.Add(course);
+            _dbcontext.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }
